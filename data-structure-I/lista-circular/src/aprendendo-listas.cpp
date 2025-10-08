@@ -158,6 +158,59 @@ void juntarListas(Nodo **listaA, Nodo **listaB, Nodo **listaC)
     }
 }
 
+void separarParImpar(Nodo **lista, Nodo **listaPar, Nodo **listaImpar)
+{
+    Nodo *aux = *lista;
+
+    while (aux != nullptr)
+    {
+        Nodo *numero = new Nodo();
+        numero->info = aux->info;
+
+        if (aux->info % 2 == 0)
+        {
+            numero->prox = *listaPar;
+            *listaPar = numero;
+        }
+        else
+        {
+            numero->prox = *listaImpar;
+            *listaImpar = numero;
+        }
+        aux = aux->prox;
+    }
+}
+
+void removerIguais(Nodo **lista, Nodo *listaComparar)
+{
+    while (listaComparar != nullptr)
+    {
+        while (*lista != nullptr && (*lista)->info == listaComparar->info)
+        {
+            Nodo *lixo = *lista;
+            *lista = (*lista)->prox;
+            delete lixo;
+        }
+
+        Nodo *aux = *lista;
+
+        while (aux != nullptr && aux->prox != nullptr)
+        {
+            if (aux->prox->info == listaComparar->info)
+            {
+                Nodo *lixo = aux->prox;
+                aux->prox = aux->prox->prox;
+                delete lixo;
+            }
+            else
+            {
+                aux = aux->prox;
+            }
+        }
+        listaComparar = listaComparar->prox;
+    }
+}
+
 void imprimirLista(Nodo *lista)
 {
     while (lista != nullptr)
